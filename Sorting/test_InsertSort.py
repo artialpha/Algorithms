@@ -1,7 +1,6 @@
 import random
 from unittest import TestCase
 from Sorting.InsertSort import InsertSort
-from random import shuffle
 
 
 class TestInsertSort(TestCase):
@@ -45,3 +44,11 @@ class TestInsertSort(TestCase):
             insert_sort.sort(ls)
             self.assertEqual(result, ls)
             print(f'ls after: {ls}\n')
+
+    def test_steps(self):
+        insert_sort = InsertSort()
+        ls = list(range(10))
+        random.shuffle(ls)
+        insert_sort.sort(ls)
+        for step in insert_sort.steps:
+            print(step)
