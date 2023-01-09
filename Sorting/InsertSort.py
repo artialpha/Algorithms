@@ -17,6 +17,8 @@ class InsertSort(Algorithm):
     def insert(self, ls, index):
         for i in range(index, 0, -1):
             if ls[i] < ls[i-1]:
-                msg = f'I swap: {ls[i]} and {ls[i-1]}'
+                msg = f'I want to swap: {ls[i]} and {ls[i-1]}. This is the list before a swap: {ls}'
                 self.steps.append(msg)
                 ls[i], ls[i-1] = ls[i-1], ls[i]
+                msg = f'I have swapped: {ls[i-1]} and {ls[i]}. This is the list after a swap: {ls}'
+                self.steps.append(msg)
