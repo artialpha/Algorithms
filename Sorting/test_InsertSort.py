@@ -50,5 +50,4 @@ class TestInsertSort(TestCase):
         ls = list(range(10))
         random.shuffle(ls)
         insert_sort.sort(ls)
-        for step in insert_sort.steps:
-            print(step)
+        insert_sort.show_steps()

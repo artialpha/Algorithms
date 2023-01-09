@@ -8,17 +8,41 @@ class InsertSort(Algorithm):
 
     def sort(self, ls):
         for index in range(1, len(ls)):
-            msg = f'This is the list before inserting: {ls}\nI am at index = {index} and I want to insert: {ls[index]}'
-            self.steps.append(msg)
+            context = {'index': index, 'element': ls[index]}
+            msg = f'I want to find a place of an element {ls[index]} at index {index} in a sorted sublist'
+            step = self.Step(msg=msg, state=ls[:], context=context)
+            self.steps.append(step)
+
             self.insert(ls, index)
-            msg = f'This is the list after inserting: {ls}\n'
-            self.steps.append(msg)
+
+            msg = 'This is the list after inserting'
+            step = self.Step(msg=msg, state=ls[:], context=context)
+            self.steps.append(step)
 
     def insert(self, ls, index):
         for i in range(index, 0, -1):
+            # ls[i] is the element for which I want to find a place - it's "key"
             if ls[i] < ls[i-1]:
-                msg = f'I want to swap: {ls[i]} and {ls[i-1]}. This is the list before a swap: {ls}'
-                self.steps.append(msg)
+                context = {'key_element': ls[i], 'sorted_element': ls[i-1]}
+                msg = 'I want swap two elements in a list because ' \
+                      'I am looking for a place for an element to maintain order. \n' \
+                      'Elements to swap:\n' \
+                      f'Key element: {ls[i]}. ' \
+                      f'\nElement from a sorted sublist: {ls[i-1]}'
+                step = self.Step(msg=msg, state=ls[:], context=context)
+                self.steps.append(step)
+
                 ls[i], ls[i-1] = ls[i-1], ls[i]
-                msg = f'I have swapped: {ls[i-1]} and {ls[i]}. This is the list after a swap: {ls}'
-                self.steps.append(msg)
+
+                msg = 'This is the list after swapping elements. \n' \
+                      'The elements that were swapped:\n' \
+                      f'{ls[i-1]} was put before {ls[i]}'
+                step = self.Step(msg=msg, state=ls[:], context=context)
+                self.steps.append(step)
+
+    def show_steps(self):
+        for index, step in enumerate(self.steps):
+            print(f'Step {index+1}')
+            print(f"State of a list: {step.state}")
+            print(step.msg, end='\n\n')
+
