@@ -6,21 +6,40 @@ class MergeSort(Algorithm):
     def __init__(self):
         super().__init__()
 
-    def sort(self):
-        pass
+    def sort(self, ls, p, r):
+        q = int((p+r)/2)
+        #print(f'before if')
+        print(f'p: {p}, q: {q}, r {r}')
+        if p < r:
+            #print(f'before dividing')
+            #print(f'p: {p}, q: {q}, r {r}')
+            self.sort(ls, p, q)
+            self.sort(ls, q+1, r)
+            #print(f'the whole list: {ls}')
+            #print(f'p: {p}, q: {q}, r {r}')
+            #print(f'before merge: ls1: {ls[p:q]}; ls2: {ls[q:r]}')
+            self.merge(ls, p, q, r)
+            #print(f'after merge:')
+            #print(f'ls {ls[p:r]}\n')
 
-    def merge(self, ls1, ls2):
+    def merge(self, ls, p, q, r):
         temp = []
-        i = 0
-        j = 0
+        start = p
+        half = q
 
-        while i < len(ls1) and j < len(ls2):
-            if ls1[i] < ls2[j]:
-                temp.append(ls1[i])
-                i += 1
+        #print(f'whole list: {ls[p:r+1]}')
+
+        while p <= half and (q+1) <= r:
+            #print(f'p: {p}, half: {half}, q+1: {q+1} , r {r}. TEMP: {temp}')
+            if ls[p] < ls[q+1]:
+                #print(f'element to add: {ls[p]}')
+                temp.append(ls[p])
+                p += 1
             else:
-                temp.append(ls2[j])
-                j += 1
+                #print(f'element to add: {ls[q]}')
+                temp.append(ls[q+1])
+                q += 1
+            #print(f'p: {p}, half: {half}, q+1: {q+1} , r {r}. TEMP: {temp}\n')
         '''
         Here I had i > j
         But there could be a situation when i and j were equal
@@ -36,9 +55,13 @@ class MergeSort(Algorithm):
         that's why I have i >= j 
         '''
 
-        if i >= j:
-            temp.extend(ls2[j:])
+        #print(f'temp before last merge: {temp}')
+        if half-p > r-(q+1):
+            #print(f'i add left: {ls[p:half+1]}')
+            temp.extend(ls[p:half+1])
         else:
-            temp.extend(ls1[i:])
+            #print(f'i add right: {ls[q+1:r+1]}')
+            temp.extend(ls[q+1:r+1])
 
-        return temp
+        ls[start:r+1] = temp
+
