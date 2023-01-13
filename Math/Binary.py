@@ -1,6 +1,7 @@
 from itertools import zip_longest
 
 
+# Cormen page 24: exercise: 1.1-4 add two binary numbers
 class Binary:
 
     @staticmethod
