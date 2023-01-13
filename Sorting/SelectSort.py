@@ -3,7 +3,7 @@ class SelectSort:
     @staticmethod
     def find_lowest(ls):
         nb = ls[0]
-        i = 0
+        i = 0   
         index = 0
         for index, n in enumerate(ls[1:], 1):
             if n < nb:
