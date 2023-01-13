@@ -39,15 +39,16 @@ class TestMergeSort(TestCase):
 
     def test_sort(self):
         number_of_tests = 100
-        size = 8
+        size = 21
         for _ in range(number_of_tests):
             merge = MergeSort()
             ls = random.sample(range(size), size)
             ls_copy = ls[:]
 
+            # sorted by python and by my algorithm
             ls_sorted = sorted(ls)
-            p = 0
-            r = len(ls_copy) - 1
-            merge.sort(ls_copy, p, r)
+            print(f'Before sorting: {ls_copy}')
+            merge.sort(ls_copy, 0, len(ls_copy) - 1)
+            print(f'After sorting: {ls_copy}\n')
 
             self.assertEqual(ls_sorted, ls_copy)
