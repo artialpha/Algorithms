@@ -1,3 +1,4 @@
+# Cormen; page: 34; exercise: 1.3-5
 def bisect(ls, value, p, q):
     m = int((p+q)/2)
     if ls[m] == value:

@@ -1,4 +1,4 @@
-# Cormen page 29: exercise: 1.2-1 add two binary numbers
+# Cormen; page: 29; exercise: 1.2-1 add two binary numbers
 class SelectSort:
     @staticmethod
     def find_lowest(ls):

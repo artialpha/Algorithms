@@ -40,6 +40,11 @@ class InsertSort(Algorithm):
                 step = self.Step(msg=msg, state=ls[:], context=context)
                 self.steps.append(step)
 
+    def sort_recursively(self, ls, index):
+        if index < len(ls):
+            self.insert(ls, index)
+            self.sort_recursively(ls, index+1)
+
     def show_steps(self):
         for index, step in enumerate(self.steps):
             print(f'Step {index+1}')

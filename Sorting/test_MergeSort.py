@@ -52,3 +52,16 @@ class TestMergeSort(TestCase):
             print(f'After sorting: {ls_copy}\n')
 
             self.assertEqual(ls_sorted, ls_copy)
+
+    def test_show_steps(self):
+        size = 8
+        ls = list(range(size))
+        random.shuffle(ls)
+        print(f'ls before sorting: {ls}')
+
+        merge = MergeSort()
+        merge.sort(ls, 0, len(ls)-1)
+
+        print(f'ls after sorting: {ls}\n')
+        merge.show_steps()
+

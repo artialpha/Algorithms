@@ -1,7 +1,8 @@
 from unittest import TestCase
 import random
-from FindValue.Bisect import bisect
-from FindValue.FindLowestLinear import find_lowest_linear
+from FindInList.Bisect import bisect
+from FindInList.FindLowestLinear import find_lowest_linear
+from FindInList.FindIndex import find_index
 
 
 class Test(TestCase):
@@ -17,13 +18,17 @@ class Test(TestCase):
 
     def test_bisect(self):
         for test in self.tests:
-            # print(f' before sort: {test}')
             test.sort()
-            # print(f' after sort: {test}\n')
+            x = random.choice(test)
+            self.assertEqual(test.index(x), bisect(test, x, 0, len(test)-1))
+
+    def test_find_index(self):
+        for test in self.tests:
+            test.sort()
             x = random.choice(test)
             self.assertEqual(test.index(x), bisect(test, x, 0, len(test)-1))
 
     def test_find_lowest_linear(self):
         for test in self.tests:
-            # print(test)
             self.assertEqual(min(test), find_lowest_linear(test)[1])
+

@@ -45,6 +45,21 @@ class TestInsertSort(TestCase):
             self.assertEqual(result, ls)
             print(f'ls after: {ls}\n')
 
+    def test_sort_recursively(self):
+        number_of_tests = 100
+        size_of_list = 10
+        insert_sort = InsertSort()
+
+        for _ in range(number_of_tests):
+            ls = list(range(size_of_list))
+            result = sorted(ls[:])
+            random.shuffle(ls)
+
+            print(f'ls before: {ls}')
+            insert_sort.sort_recursively(ls, 1)
+            self.assertEqual(result, ls)
+            print(f'ls after: {ls}\n')
+
     def test_steps(self):
         insert_sort = InsertSort()
         ls = list(range(10))

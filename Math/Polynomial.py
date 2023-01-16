@@ -1,3 +1,4 @@
+# Cormen; page: 29; exercise: 1.2-4
 def polynomial(pol, x):
     res = 0
     for i, n in enumerate(pol):
