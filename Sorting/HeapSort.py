@@ -59,3 +59,19 @@ class HeapSort(Algorithm):
             size -= 1
             # resize list, without last
             cls.heapify(ls, 0, size)
+
+    @classmethod
+    def heap_extract_max(cls, heap):
+        mx = heap[0]
+        heap[0] = heap[-1]
+        heap.pop()
+        cls.heapify(heap, 0)
+        return mx
+
+    @classmethod
+    def heap_insert(cls, heap, value):
+        i = len(heap) - 1
+        while i > 0 and heap[cls.heap_parent_index(i)] < value:
+            heap[i] = heap[cls.heap_parent_index(i)]
+            i = cls.heap_parent_index(i)
+        heap[i] = value

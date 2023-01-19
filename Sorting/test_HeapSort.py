@@ -72,20 +72,72 @@ class TestHeapSort(TestCase):
             ls = sample(range(size), size)
             heapify_max(ls)
 
-            index1 = randint(0, size-1)
+            index1 = randint(1, size-1)
             parent_index = hp.heap_parent_index(index1)
             ls[parent_index], ls[index1] = ls[index1], ls[parent_index]
 
             self.assertFalse(hp.check_heap(ls))
 
-    def test_heapify(self):
-        pass
-    
+    def test_heapify_heap_height_one(self):
+        size = 3
+        nb_tests = 100
+        hp = HeapSort()
+
+        for s in range(size):
+            for n in range(nb_tests):
+                ls = sample(range(nb_tests), size-1)
+                nb = randint(nb_tests+1, nb_tests*2)
+                ls.insert(s, nb)
+                hp.heapify(ls, 0)
+                self.assertTrue(hp.check_heap(ls))
+
+    def test_heapify_swap_parent_child(self):
+        size = 10
+        nb_tests = 100
+        hp = HeapSort()
+
+        for _ in range(nb_tests):
+            ls = sample(range(nb_tests), size)
+            heapify_max(ls)
+
+            index1 = randint(1, size-1)
+            parent_index = hp.heap_parent_index(index1)
+            ls[parent_index], ls[index1] = ls[index1], ls[parent_index]
+            self.assertFalse(hp.check_heap(ls))
+            hp.heapify(ls, parent_index)
+            self.assertTrue(hp.check_heap(ls))
+
+    def test_heapify_swap_grandparent_child(self):
+        size = 10
+        nb_tests = 100
+        hp = HeapSort()
+
+        for _ in range(nb_tests):
+            ls = sample(range(nb_tests), size)
+            heapify_max(ls)
+
+            index1 = randint(3, size-1)
+            parent_index = hp.heap_parent_index(index1)
+            grandparent_index = hp.heap_parent_index(parent_index)
+            ls[parent_index], ls[index1] = ls[index1], ls[parent_index]
+            ls[parent_index], ls[grandparent_index] = ls[grandparent_index], ls[parent_index]
+
+            self.assertFalse(hp.check_heap(ls))
+            hp.heapify(ls, grandparent_index)
+            self.assertTrue(hp.check_heap(ls))
+
+    # there i use my own method to build a heap
     def test_build_heap(self):
-        pass
+        nb_tests = 100
+        hp = HeapSort()
+
+        for _ in range(nb_tests):
+            ls = sample(range(nb_tests), nb_tests)
+            hp.build_heap(ls)
+            self.assertTrue(hp.check_heap(ls))
 
     def test_heap_sort(self):
-        nb_tests = 10
+        nb_tests = 100
         hp = HeapSort()
 
         for _ in range(nb_tests):
@@ -101,3 +153,26 @@ class TestHeapSort(TestCase):
 
             # check if they are equal as they should be
             self.assertEqual(ls_sorted_copy, ls)
+
+    def test_heap_extract_max(self):
+        nb_tests = 100
+        hp = HeapSort()
+
+        for _ in range(nb_tests):
+            ls = sample(range(nb_tests), nb_tests)
+            hp.build_heap(ls)
+            mx = hp.heap_extract_max(ls)
+
+            self.assertTrue(mx > max(ls))
+            self.assertTrue(hp.check_heap(ls))
+
+    def test_heap_insert(self):
+        nb_tests = 100
+        hp = HeapSort()
+
+        for _ in range(nb_tests):
+            ls = sample(range(nb_tests), nb_tests)
+            hp.build_heap(ls)
+            value = randint(int(nb_tests/2), nb_tests)
+            hp.heap_insert(ls, value)
+            self.assertTrue(ls)
