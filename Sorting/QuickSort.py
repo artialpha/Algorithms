@@ -17,5 +17,13 @@ class QuickSort(Algorithm):
                     j -= 1
             else:
                 i += 1
-        ls[r], ls[i] = ls[r], ls[i]
+        ls[r], ls[i] = ls[i], ls[r]
         return i
+
+    @classmethod
+    def quick_sort(cls, ls, p, r):
+        if p < r:
+            q = cls.partition(ls, p, r)
+            print(f'p: {p}, q: {q}, r:{r}')
+            cls.quick_sort(ls, p, q-1)
+            cls.quick_sort(ls, q+1, r)
