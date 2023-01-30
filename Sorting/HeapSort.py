@@ -24,6 +24,9 @@ class HeapSort(Algorithm):
         for index, node in enumerate(heap[1:], 1):
             parent_index = cls.heap_parent_index(index)
             if heap[parent_index] < node:
+                print("check heap claims that this is not a heap")
+                print(f'parent index: {parent_index}, parent value: {heap[parent_index]}')
+                print(f'node index: {index}, node value: {node}')
                 return False
         return True
 
@@ -79,31 +82,28 @@ class HeapSort(Algorithm):
         heap[i] = value
 
     @classmethod
-    def heap_increase_value(cls, heap, i, value):
-        heap[i] = max(heap[i], value)
+    def swap_with_parent(cls, heap, i, value):
         while i > 0 and heap[cls.heap_parent_index(i)] < value:
             heap[i] = heap[cls.heap_parent_index(i)]
             i = cls.heap_parent_index(i)
         heap[i] = value
 
     @classmethod
-    def heap_delete(cls):
-        pass
+    def heap_increase_value(cls, heap, i, value):
+        heap[i] = max(heap[i], value)
+        cls.swap_with_parent(heap, i, value)
 
     @classmethod
-    def heap_print(cls, ls):
-        def get_indices(ls):
-            a1 = 1
-            q = 2
-            len_ls = len(ls)
-            n = 1
-            temp = []
-
-            while (geo_sum := int(a1 * ((1-q**n)/(1-q)))) < len_ls:
-                temp.append((geo_sum - (2**(n-1)), geo_sum))
-                n += 1
-            temp.append((geo_sum - (2**(n-1)), len_ls))
-            return temp
+    def heap_delete(cls, heap, i):
+        length = len(heap) - 1
+        if i != length:
+            heap[i] = heap[length]
+        else:
+            i -= 1
+        heap.pop()
+        if heap[i] > heap[cls.heap_parent_index(i)]:
+            cls.swap_with_parent(heap, i, heap[i])
+        cls.heapify(heap, i)
 
     @classmethod
     def print_heap(cls, ls):

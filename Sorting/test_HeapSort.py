@@ -172,7 +172,7 @@ class TestHeapSort(TestCase):
             self.assertEqual(len_before - 1, len_after)
 
     def test_heap_insert(self):
-        nb_tests = 10
+        nb_tests = 100
         hp = HeapSort()
 
         for _ in range(nb_tests):
@@ -191,8 +191,8 @@ class TestHeapSort(TestCase):
             self.assertTrue(hp.check_heap(ls))
             self.assertEqual(len_before + 1, len_after)
 
-    def test_heap_increase_key(self):
-        nb_tests = 10
+    def test_heap_increase_value(self):
+        nb_tests = 100
         hp = HeapSort()
 
         for _ in range(nb_tests):
@@ -214,12 +214,44 @@ class TestHeapSort(TestCase):
             self.assertTrue(hp.check_heap(ls))
             self.assertEqual(len_before, len_after)
 
-    def test_print_heap(self):
-        nb_tests = 10
+    def test_heap_delete(self):
+        nb_tests = 100
         hp = HeapSort()
 
         for _ in range(nb_tests):
             ls = sample(range(5*nb_tests), nb_tests)
+            hp.build_heap(ls)
+
+            len_before = len(ls)
+            index = randint(1, nb_tests-1)
+            value_index = ls[index]
+            last_value = ls[len_before-1]
+
+            # print(f'heap before; index to remove: {index}, value: {value_index}')
+            # print(f'last value: {last_value}')
+            # hp.print_heap(ls)
+
+            hp.heap_delete(ls, index)
+            len_after = len(ls)
+
+            # print('heap after: ')
+            # hp.print_heap(ls)
+            # print('---------------------------------------------------------\n')
+
+            self.assertEqual(len_before-1, len_after)
+            self.assertNotIn(value_index, ls)
+            self.assertTrue(hp.check_heap(ls))
+            if index != len_before-1:
+                self.assertIn(last_value, ls)
+
+    def test_print_heap(self):
+        nb_tests = 1
+        size = 14
+        rng = range(100)
+        hp = HeapSort()
+
+        for _ in range(nb_tests):
+            ls = sample(rng, size)
             hp.build_heap(ls)
             hp.print_heap(ls)
             print('-----------------------------\n')
