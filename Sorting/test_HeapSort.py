@@ -161,18 +161,65 @@ class TestHeapSort(TestCase):
         for _ in range(nb_tests):
             ls = sample(range(nb_tests), nb_tests)
             hp.build_heap(ls)
-            mx = hp.heap_extract_max(ls)
+            len_before = len(ls)
 
+            mx = hp.heap_extract_max(ls)
+            len_after = len(ls)
+
+            self.assertNotIn(mx, ls)
             self.assertTrue(mx > max(ls))
             self.assertTrue(hp.check_heap(ls))
+            self.assertEqual(len_before - 1, len_after)
 
     def test_heap_insert(self):
-        nb_tests = 100
+        nb_tests = 10
         hp = HeapSort()
 
         for _ in range(nb_tests):
-            ls = sample(range(nb_tests), nb_tests)
+            ls = sample(range(5*nb_tests), nb_tests)
             hp.build_heap(ls)
-            value = randint(int(nb_tests/2), nb_tests)
+            len_before = len(ls)
+            # print(f' heap before: {ls}')
+
+            value = randint(2*nb_tests, 4*nb_tests)
             hp.heap_insert(ls, value)
-            self.assertTrue(ls)
+            len_after = len(ls)
+            # print(f' value to insert: {value}')
+            # print(f' heap after: {ls}')
+
+            self.assertIn(value, ls)
+            self.assertTrue(hp.check_heap(ls))
+            self.assertEqual(len_before + 1, len_after)
+
+    def test_heap_increase_key(self):
+        nb_tests = 10
+        hp = HeapSort()
+
+        for _ in range(nb_tests):
+            ls = sample(range(5*nb_tests), nb_tests)
+            hp.build_heap(ls)
+            len_before = len(ls)
+            # print(f' heap before: {ls}')
+
+            index = randint(1, nb_tests-1)
+            old_value = ls[index]
+            increased_value = ls[index] + randint(nb_tests, 2*nb_tests)
+            hp.heap_increase_value(ls, index, increased_value)
+            len_after = len(ls)
+            # print(f' value increased from: {old_value} to {increased_value}')
+            # print(f' heap after: {ls}')
+
+            self.assertNotIn(old_value, ls)
+            self.assertIn(increased_value, ls)
+            self.assertTrue(hp.check_heap(ls))
+            self.assertEqual(len_before, len_after)
+
+    def test_print_heap(self):
+        nb_tests = 10
+        hp = HeapSort()
+
+        for _ in range(nb_tests):
+            ls = sample(range(5*nb_tests), nb_tests)
+            hp.build_heap(ls)
+            hp.print_heap(ls)
+            print('-----------------------------\n')

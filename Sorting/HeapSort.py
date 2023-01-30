@@ -70,8 +70,75 @@ class HeapSort(Algorithm):
 
     @classmethod
     def heap_insert(cls, heap, value):
+        heap.append(value)
         i = len(heap) - 1
+
         while i > 0 and heap[cls.heap_parent_index(i)] < value:
             heap[i] = heap[cls.heap_parent_index(i)]
             i = cls.heap_parent_index(i)
         heap[i] = value
+
+    @classmethod
+    def heap_increase_value(cls, heap, i, value):
+        heap[i] = max(heap[i], value)
+        while i > 0 and heap[cls.heap_parent_index(i)] < value:
+            heap[i] = heap[cls.heap_parent_index(i)]
+            i = cls.heap_parent_index(i)
+        heap[i] = value
+
+    @classmethod
+    def heap_delete(cls):
+        pass
+
+    @classmethod
+    def heap_print(cls, ls):
+        def get_indices(ls):
+            a1 = 1
+            q = 2
+            len_ls = len(ls)
+            n = 1
+            temp = []
+
+            while (geo_sum := int(a1 * ((1-q**n)/(1-q)))) < len_ls:
+                temp.append((geo_sum - (2**(n-1)), geo_sum))
+                n += 1
+            temp.append((geo_sum - (2**(n-1)), len_ls))
+            return temp
+
+    @classmethod
+    def print_heap(cls, ls):
+        def get_indices(ls_):
+            a1 = 1
+            q = 2
+            len_ls = len(ls_)
+            n = 1
+            temp = []
+
+            while (geo_sum := int(a1 * ((1-q**n)/(1-q)))) < len_ls:
+                temp.append((geo_sum - (2**(n-1)), geo_sum))
+                n += 1
+            temp.append((geo_sum - (2**(n-1)), len_ls))
+            return temp
+
+        indices = get_indices(ls)
+        msg = ''
+        line_length = 130
+
+        for i, (start, end) in enumerate(indices):
+            elements = ls[start:end]
+            for el in elements:
+                msg += f'{el:^{int(line_length/(2**i))}}'
+            msg += f'\n'
+            for _ in range(len(elements)):
+                b = '/'
+                f = '\\'
+                msg += f'{b:^{int(line_length/((2**i)*2))}}{f:^{int(line_length/((2**i)*2))}}'
+            msg += f'\n'
+
+        # remove last line two lines
+        msg = "\n".join(msg.split("\n")[0:-2])
+        print(msg)
+
+
+
+
