@@ -95,15 +95,20 @@ class HeapSort(Algorithm):
 
     @classmethod
     def heap_delete(cls, heap, i):
-        length = len(heap) - 1
-        if i != length:
-            heap[i] = heap[length]
+        last_index = len(heap) - 1
+        if i == last_index:
+            heap.pop()
         else:
-            i -= 1
-        heap.pop()
-        if heap[i] > heap[cls.heap_parent_index(i)]:
-            cls.swap_with_parent(heap, i, heap[i])
-        cls.heapify(heap, i)
+            heap[i] = heap[last_index]
+            heap.pop()
+            if heap[i] > heap[cls.heap_parent_index(i)]:
+                cls.swap_with_parent(heap, i, heap[i])
+            else:
+                cls.heapify(heap, i)
+
+    @classmethod
+    def merge_lists(cls, lists):
+        pass
 
     @classmethod
     def print_heap(cls, ls):

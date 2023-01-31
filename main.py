@@ -1,16 +1,40 @@
-# This is a sample Python script.
+from os import listdir
+from random import sample
+from Sorting.InsertSort import InsertSort
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+print("Hello, this script allows to pick one of the algorithms and check how "
+      "they work on a list that either you provide or is random")
 
+work = True
+sorting = listdir(r'Sorting')
+print(sorting)
+sorting = [name.rstrip('.py') for name in sorting if name[:4] != 'test']
+sorting = [f'{name[:-4]} {name[-4:]}'.lower() for name in sorting]
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# get rid of __pycache__
+sorting.pop()
 
+while work:
+    print("Commands:")
+    print("1. Sorting\n"
+          "2. Exit")
+    answer = input()
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    if answer == '1':
+        print(f'available algorithms: {sorting}')
+        print("Which do you want to see?")
+        for i, alg in enumerate(sorting, 1):
+            print(f'{i}: {alg}')
+        answer = input()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+        if answer == '2':
+            print("We will use a random list")
+            ls = sample(range(20), 10)
+            ins = InsertSort()
+            ins.sort(ls)
+            ins.show_steps()
+            answer = None
+
+    if answer == '2':
+        print("So I exit!")
+        work = False
