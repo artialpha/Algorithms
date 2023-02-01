@@ -85,3 +85,11 @@ class TestQuickSort(TestCase):
             qs.quick_sort(ls, 0, len(ls)-1)
 
             self.assertEqual(result_python, ls)
+
+    def test_show_steps(self):
+        size = 10
+        rng = range(size*3)
+        ls = sample(rng, size)
+        qs = QuickSort()
+        qs.quick_sort(ls, 0, size-1)
+        qs.show_steps()
