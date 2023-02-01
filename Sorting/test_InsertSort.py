@@ -1,4 +1,4 @@
-import random
+from random import choices, shuffle
 from unittest import TestCase
 from Sorting.InsertSort import InsertSort
 
@@ -38,12 +38,26 @@ class TestInsertSort(TestCase):
         for _ in range(number_of_tests):
             ls = list(range(size_of_list))
             result = sorted(ls[:])
-            random.shuffle(ls)
+            shuffle(ls)
 
             print(f'ls before: {ls}')
             insert_sort.sort(ls)
             self.assertEqual(result, ls)
             print(f'ls after: {ls}\n')
+
+    def test_sort_with_repetition(self):
+        number_of_tests = 100
+        rng = range(100)
+        size = 30
+        insert_sort = InsertSort()
+
+        for _ in range(number_of_tests):
+            ls = choices(rng, k=size)
+
+            python_result = sorted(ls)
+            insert_sort.sort(ls)
+
+            self.assertEqual(python_result, ls)
 
     def test_sort_recursively(self):
         number_of_tests = 100
@@ -53,7 +67,7 @@ class TestInsertSort(TestCase):
         for _ in range(number_of_tests):
             ls = list(range(size_of_list))
             result = sorted(ls[:])
-            random.shuffle(ls)
+            shuffle(ls)
 
             print(f'ls before: {ls}')
             insert_sort.sort_recursively(ls, 1)
@@ -63,6 +77,6 @@ class TestInsertSort(TestCase):
     def test_steps(self):
         insert_sort = InsertSort()
         ls = list(range(10))
-        random.shuffle(ls)
+        shuffle(ls)
         insert_sort.sort(ls)
         insert_sort.show_steps()

@@ -1,4 +1,4 @@
-import random
+from random import sample, shuffle, choices
 from unittest import TestCase
 from Sorting.MergeSort import MergeSort
 
@@ -9,7 +9,7 @@ class TestMergeSort(TestCase):
         size = 8
         for _ in range(number_of_tests):
             merge = MergeSort()
-            ls = random.sample(range(size), size)
+            ls = sample(range(size), size)
             ls_copy = ls[:]
             p = 0
             r = len(ls_copy) - 1
@@ -42,7 +42,7 @@ class TestMergeSort(TestCase):
         size = 21
         for _ in range(number_of_tests):
             merge = MergeSort()
-            ls = random.sample(range(size), size)
+            ls = sample(range(size), size)
             ls_copy = ls[:]
 
             # sorted by python and by my algorithm
@@ -53,10 +53,25 @@ class TestMergeSort(TestCase):
 
             self.assertEqual(ls_sorted, ls_copy)
 
+    def test_sort_with_repetition(self):
+        number_of_tests = 100
+        rng = range(100)
+        size = 30
+
+        for _ in range(number_of_tests):
+            merge = MergeSort()
+            ls = choices(rng, k=size)
+            ls_copy = ls[:]
+
+            python_result = sorted(ls)
+            merge.sort(ls_copy, 0, len(ls_copy) - 1)
+
+            self.assertEqual(python_result, ls_copy)
+
     def test_show_steps(self):
         size = 8
         ls = list(range(size))
-        random.shuffle(ls)
+        shuffle(ls)
         print(f'ls before sorting: {ls}')
 
         merge = MergeSort()

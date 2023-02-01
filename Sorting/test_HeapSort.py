@@ -1,5 +1,5 @@
 from unittest import TestCase
-from random import sample, randint
+from random import sample, randint, choices
 from heapq_max import heapify_max
 from Sorting.HeapSort import HeapSort
 
@@ -153,6 +153,20 @@ class TestHeapSort(TestCase):
 
             # check if they are equal as they should be
             self.assertEqual(ls_sorted_copy, ls)
+
+    def test_heap_sort_with_repetition(self):
+        nb_tests = 100
+        rng = range(100)
+        size = 30
+        hp = HeapSort()
+
+        for _ in range(nb_tests):
+            ls = choices(rng, k=size)
+
+            result_python = sorted(ls)
+            hp.heapsort(ls)
+
+            self.assertEqual(result_python, ls)
 
     def test_heap_extract_max(self):
         nb_tests = 100

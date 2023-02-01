@@ -1,5 +1,5 @@
 from unittest import TestCase
-from random import sample
+from random import sample, choices
 from Sorting.QuickSort import QuickSort
 
 
@@ -9,7 +9,7 @@ class TestQuickSort(TestCase):
         qs = QuickSort()
 
         for _ in range(nb_tests):
-            ls = sample(range(nb_tests*20), nb_tests)
+            ls = sample(range(nb_tests*3), nb_tests)
             pivot = ls[len(ls)-1]
 
             # get an index of a pivot (it should be located in a place where it should be in a sorted list)
@@ -54,11 +54,14 @@ class TestQuickSort(TestCase):
                 self.assertTrue(pivot_index == my_index)
 
     def test_quick_sort(self):
-        nb_tests = 10
+        nb_tests = 100
+        rng = range(100)
+        size = 30
+
         qs = QuickSort()
 
         for _ in range(nb_tests):
-            ls = sample(range(nb_tests), nb_tests)
+            ls = sample(rng, 30)
 
             # sorted by python; sorted returns a new list, doesn't change the original one
             ls_copy = sorted(ls)
@@ -67,3 +70,18 @@ class TestQuickSort(TestCase):
             qs.quick_sort(ls, 0, len(ls)-1)
 
             self.assertEqual(ls_copy, ls)
+
+    def test_sort_with_repetition(self):
+        nb_tests = 100
+        rng = range(100)
+        size = 30
+
+        qs = QuickSort()
+
+        for _ in range(nb_tests):
+            ls = choices(rng, k=size)
+
+            result_python = sorted(ls)
+            qs.quick_sort(ls, 0, len(ls)-1)
+
+            self.assertEqual(result_python, ls)

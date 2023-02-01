@@ -1,6 +1,6 @@
 from unittest import TestCase
 from Sorting.SelectSort import SelectSort
-from random import sample
+from random import sample, choices
 
 
 class TestSelectSort(TestCase):
@@ -25,3 +25,15 @@ class TestSelectSort(TestCase):
             #print(f'sorted list: {sorted(ls)} but ls is not changed: {ls}')
             self.assertEqual(sorted(ls), select.sort(ls[:]))
 
+    def test_sort_with_repetition(self):
+        number_of_tests = 100
+        size = 30
+
+        for _ in range(number_of_tests):
+            ls = choices(range(number_of_tests), k=size)
+            select = SelectSort()
+
+            python_result = sorted(ls)
+            my_result = select.sort(ls)
+
+            self.assertEqual(python_result, my_result)

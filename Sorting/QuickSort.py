@@ -24,6 +24,6 @@ class QuickSort(Algorithm):
     def quick_sort(cls, ls, p, r):
         if p < r:
             q = cls.partition(ls, p, r)
-            print(f'p: {p}, q: {q}, r:{r}')
+            # print(f'p: {p}, q: {q}, r:{r}')
             cls.quick_sort(ls, p, q-1)
             cls.quick_sort(ls, q+1, r)
