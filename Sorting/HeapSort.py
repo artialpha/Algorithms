@@ -30,38 +30,73 @@ class HeapSort(Algorithm):
                 return False
         return True
 
-    @classmethod
-    def heapify(cls, heap, i, stop=inf):
-        heap_size = len(heap) - 1
-        left = cls.heap_left_child_index(i)
-        right = cls.heap_right_child_index(i)
+    def heapify(self, ls, i, stop=inf):
+        heap_size = len(ls) - 1
+        left = self.heap_left_child_index(i)
+        right = self.heap_right_child_index(i)
         largest = i
         if i < stop:
-            if left <= heap_size and left <= stop and heap[left] > heap[largest]:
+            if left <= heap_size and left <= stop and ls[left] > ls[largest]:
                 largest = left
-            if right <= heap_size and right <= stop and heap[right] > heap[largest]:
+            if right <= heap_size and right <= stop and ls[right] > ls[largest]:
                 largest = right
             if largest != i:
-                heap[largest], heap[i] = heap[i], heap[largest]
-                cls.heapify(heap, largest, stop)
+                msg = f"The heap property at index: {i} is not satisfied so I need to swap elements\n" \
+                      f"Largest index: {largest}, largest value: {ls[largest]}\n" \
+                      f"Parent index: {i}, parent value: {ls[i]}"
+                step = self.Step(msg=msg, state=ls[:], context={})
+                self.steps.append(step)
 
-    @classmethod
-    def build_heap(cls, ls):
+                ls[largest], ls[i] = ls[i], ls[largest]
+                self.heapify(ls, largest, stop)
+
+    def build_heap(self, ls):
         size = len(ls) - 1
         half = int(round(size/2))
         for i in range(half, -1, -1):
-            cls.heapify(ls, i)
+            self.heapify(ls, i)
 
-    @classmethod
-    def heapsort(cls, ls):
-        cls.build_heap(ls)
+    def heapsort(self, ls):
+        msg = f"I want to sort this list: {ls}\n" \
+              f"At first I will build a heap from it.\n"
+        step = self.Step(msg=msg, state=ls[:], context={})
+        self.steps.append(step)
+
+        self.build_heap(ls)
         size = len(ls) - 1
 
+        msg = f"The heap built from the list:\n" \
+              f"{self.print_heap(ls)}\n"
+        step = self.Step(msg=msg, state=ls[:], context={})
+        self.steps.append(step)
+
         for i in range(size, 0, -1):
+            msg = f"List before swap:\n" \
+                  f"{ls}\n" \
+                  f"I swap the first element with the last (for the current size: {size}):\n" \
+                  f"First element: {ls[0]}, last element: {ls[i]}\n"
+            step = self.Step(msg=msg, state=ls[:], context={})
+            self.steps.append(step)
+
             ls[i], ls[0] = ls[0], ls[i]
             size -= 1
+
+            msg = f"List after swap:\n" \
+                  f"{ls}\n"
+            step = self.Step(msg=msg, state=ls[:], context={})
+            self.steps.append(step)
+
+            msg = f"After the swap I need to heapify\n" \
+                  f"{self.print_heap(ls)}\n"
+            step = self.Step(msg=msg, state=ls[:], context={})
+            self.steps.append(step)
             # resize list, without last
-            cls.heapify(ls, 0, size)
+            self.heapify(ls, 0, size)
+
+            msg = f"Heap after heapify: \n" \
+                  f"{self.print_heap(ls)}\n"
+            step = self.Step(msg=msg, state=ls[:], context={})
+            self.steps.append(step)
 
     @classmethod
     def heap_extract_max(cls, heap):
@@ -142,7 +177,12 @@ class HeapSort(Algorithm):
 
         # remove last line two lines
         msg = "\n".join(msg.split("\n")[0:-2])
-        print(msg)
+        return msg
+
+    def show_steps(self):
+        print(f'ls at the start: {self.steps[0].state}')
+        for index, step in enumerate(self.steps):
+            print(step.msg)
 
 
 

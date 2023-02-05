@@ -259,7 +259,7 @@ class TestHeapSort(TestCase):
                 self.assertIn(last_value, ls)
 
     def test_print_heap(self):
-        nb_tests = 1
+        nb_tests = 5
         size = 14
         rng = range(100)
         hp = HeapSort()
@@ -267,5 +267,13 @@ class TestHeapSort(TestCase):
         for _ in range(nb_tests):
             ls = sample(rng, size)
             hp.build_heap(ls)
-            hp.print_heap(ls)
+            print(hp.print_heap(ls))
             print('-----------------------------\n')
+
+    def test_show_steps(self):
+        size = 10
+        rng = range(size*3)
+        ls = sample(rng, size)
+        hp = HeapSort()
+        hp.heapsort(ls)
+        hp.show_steps()
