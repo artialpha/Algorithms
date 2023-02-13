@@ -98,12 +98,11 @@ class HeapSort(Algorithm):
             step = self.Step(msg=msg, state=ls[:], context={})
             self.steps.append(step)
 
-    @classmethod
-    def heap_extract_max(cls, heap):
+    def heap_extract_max(self, heap):
         mx = heap[0]
         heap[0] = heap[-1]
         heap.pop()
-        cls.heapify(heap, 0)
+        self.heapify(heap, 0)
         return mx
 
     @classmethod
@@ -128,18 +127,17 @@ class HeapSort(Algorithm):
         heap[i] = max(heap[i], value)
         cls.swap_with_parent(heap, i, value)
 
-    @classmethod
-    def heap_delete(cls, heap, i):
+    def heap_delete(self, heap, i):
         last_index = len(heap) - 1
         if i == last_index:
             heap.pop()
         else:
             heap[i] = heap[last_index]
             heap.pop()
-            if heap[i] > heap[cls.heap_parent_index(i)]:
-                cls.swap_with_parent(heap, i, heap[i])
+            if heap[i] > heap[self.heap_parent_index(i)]:
+                self.swap_with_parent(heap, i, heap[i])
             else:
-                cls.heapify(heap, i)
+                self.heapify(heap, i)
 
     @classmethod
     def merge_lists(cls, lists):
