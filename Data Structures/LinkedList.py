@@ -33,6 +33,15 @@ class LinkedList:
             self.head = node
             self.tail = node
 
+    def insert_end(self, node):
+        if self.tail:
+            self.tail.next = node
+            node.prev = self.tail
+            self.tail = node
+        else:
+            self.head = node
+            self.tail = node
+
     def check_in_list(self, value):
         node = self.head
 

@@ -29,7 +29,6 @@ class TestLinkedList(TestCase):
         else:
             return ll
 
-
     def test_general(self):
         node = self.random_node()
         ll = LinkedList(node)
@@ -46,6 +45,18 @@ class TestLinkedList(TestCase):
         print('next node: ', node)
 
         self.assertIs(node.next, first_node)
+        print('linked list: ', ll)
+
+    def test_insert_end(self):
+        first_node = self.random_node()
+        ll = LinkedList(first_node)
+        print('first node: ',  first_node)
+
+        node = self.random_node()
+        ll.insert_end(node)
+        print('next node: ', node)
+
+        self.assertIs(node.prev, first_node)
         print('linked list: ', ll)
 
     def test_check_in_list(self):
@@ -77,6 +88,23 @@ class TestLinkedList(TestCase):
             elif i == self.size- 1:
                 head = node
             ll.insert_start(node)
+            print(ll)
+
+        self.assertIs(ll.head, head)
+        self.assertIs(ll.tail, tail)
+
+    def test_insert_end2(self):
+        ll = LinkedList()
+        head = None
+        tail = None
+
+        for i in range(self.size):
+            node = self.random_node()
+            if i == 0:
+                head = node
+            elif i == self.size - 1:
+                tail = node
+            ll.insert_end(node)
             print(ll)
 
         self.assertIs(ll.head, head)
