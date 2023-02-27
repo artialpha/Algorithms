@@ -69,54 +69,86 @@ class HashTableOpenAddressing(HashTable):
     def __init__(self, size):
         super().__init__(size)
         self.table = [None for _ in range(size)]
-        self.increment = None
 
     def __setitem__(self, key, value):
-        index = self.hash_index(key)
+        index_in_table = self.hash_index(key)
+        index_first_element_in_series = index_in_table
+        index_in_series = 1
         cont = True
 
         while cont:
-            pair = self.table[index]
+            pair = self.table[index_in_table]
 
             if not pair or pair[0] == key:
-                self.table[index] = (key, value)
+                self.table[index_in_table] = (key, value)
                 cont = False
             else:
-                index += self.increment
+                index_in_table = self.calculate_next_index(index_first_element_in_series, index_in_series) % self.size
+                index_in_series += 1
+
+                if index_in_series > self.size:
+                    raise IndexError("there is no free space to set another item in a table")
 
     def __getitem__(self, key):
-        index = self.hash_index(key)
+        index_in_table = self.hash_index(key)
+        index_first_element_in_series = index_in_table
+        index_in_series = 1
         cont = True
 
-        if not self.table[index]:
+        if not self.table[index_in_table]:
             return None
 
         while cont:
-            if not self.table[index]:
+            if not self.table[index_in_table]:
                 return None
-            elif self.table[index][0] == key:
-                return self.table[index][1]
+            elif self.table[index_in_table][0] == key:
+                return self.table[index_in_table][1]
+            elif index_in_series > self.size:
+                return None
             else:
-                index += self.increment
+                index_in_table = self.calculate_next_index(index_first_element_in_series, index_in_series) % self.size
+                index_in_series += 1
 
     def __delitem__(self, key):
-        index = self.hash_index(key)
+        index_in_table = self.hash_index(key)
+        index_first_element_in_series = index_in_table
+        index_in_series = 1
         cont = True
 
         while cont:
-            if self.table[index][0] == key:
-                del self.table[index]
+            if self.table[index_in_table][0] == key:
+                self.table[index_in_table] = 'deleted'
                 cont = False
+            elif index_in_series > self.size:
+                return None
             else:
-                index += self.increment
+                index_in_table = self.calculate_next_index(index_first_element_in_series, index_in_series) % self.size
+                index_in_series += 1
+
+    @staticmethod
+    def calculate_next_index(index_in_table, index_in_series):
+        pass
 
 
 class HashTableLinearAddressing(HashTableOpenAddressing):
 
+    def __init__(self, size, modulo=None):
+        super().__init__(size)
+        self.increment = 1
+
+    @staticmethod
+    def calculate_next_index(index_in_table, index_in_series):
+        return index_in_table + index_in_series
+
+    def hash_index(self, key):
+        return key % self.size
+
+
+class HashTableQuadraticAddressing(HashTableOpenAddressing):
+
     def __init__(self, size, modulo):
         super().__init__(size)
         self.modulo = modulo
-        self.increment = 1
 
     def hash_index(self, key):
         return key % self.modulo

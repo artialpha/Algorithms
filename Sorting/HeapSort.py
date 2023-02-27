@@ -52,7 +52,7 @@ class HeapSort(Algorithm):
 
     def build_heap(self, ls):
         size = len(ls) - 1
-        half = int(round(size/2))
+        half = int(size/2)
         for i in range(half, -1, -1):
             self.heapify(ls, i)
 
